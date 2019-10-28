@@ -10,4 +10,5 @@ import java.util.List;
 public interface SchoolRepository extends CrudRepository<School, Long> {
     List<School> findAll();
     List<School> findAllByCity(String city);
+    List<School> findAllByType(String type);
 }

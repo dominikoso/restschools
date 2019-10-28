@@ -19,4 +19,7 @@ public class SchoolController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/city/{city}")
     public List<School> getAllByCity(@PathVariable(name = "city") String city) {return schoolRepository.findAllByCity(city);}
+
+    @RequestMapping(method = RequestMethod.GET, value = "/type/{type}")
+    public List<School> getAllByType(@PathVariable(name = "type") String type) {return schoolRepository.findAllByType(type);}
 }
