@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * School controller class - used for serving data to user in form of json
+ * @author dominikoso
+ * @see School
+ */
 @RestController
 @RequestMapping(value = "/school", produces = "application/json; charset=utf-8")
 public class SchoolController {
