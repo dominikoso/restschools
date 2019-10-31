@@ -17,11 +17,13 @@
                     <thead>
                     <tr>
                         <th> Endpoints: </th>
+                        <th> Optional:  </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="endpoint : ${endpoints}">
-                        <td><span th:text="@{|localhost:8080/school/${endpoint}/{param}|}"></span></td>
+                        <td><span th:text="@{|${fullUrl}school/${endpoint}/{param}|}"></span></td>
+                        <td><span th:text="@{|?fields=field1,field2|}"></span></td>
                     </tr>
                     </tbody>
                 </table>
