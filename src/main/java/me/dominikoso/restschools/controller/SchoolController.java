@@ -2,7 +2,8 @@ package me.dominikoso.restschools.controller;
 
 import me.dominikoso.restschools.model.School;
 import me.dominikoso.restschools.repository.SchoolRepository;
-import me.dominikoso.restschools.tools.ResponseControllersTools;
+import me.dominikoso.restschools.tools.SchoolControllersTools;
+import me.dominikoso.restschools.tools.SchoolFilterEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,52 @@ public class SchoolController {
     @Autowired
     private SchoolRepository schoolRepository;
 
-    private ResponseControllersTools controllersTools = new ResponseControllersTools();
+    private SchoolControllersTools controllersTools = new SchoolControllersTools();
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getAll(@RequestParam(value = "fields", required = false) String fields) {
         return ResponseEntity.ok(getSchools(fields));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/id/{id}")
+    public ResponseEntity getById(@RequestParam(value = "fields", required = false) String fields,
+                                  @PathVariable(name = "id") Long id){
+        School school = schoolRepository.findBySchoolId(id);
+        if (school != null){
+            return ResponseEntity.ok(controllersTools.parsedSchool(school, fields));
+        }else {
+            return ResponseEntity.badRequest().body("School with id: "+id+" not found");
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/city/{city}")
+    public ResponseEntity getAllByCity(@RequestParam(value = "fields", required = false) String fields,
+                                     @PathVariable(name = "city") String city) {
+        return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.CITY, city));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/type/{type}")
+    public ResponseEntity getAllByType(@RequestParam(value = "fields", required = false) String fields,
+                                     @PathVariable(name = "type") String type) {
+        return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.TYPE, type));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/wojewodztwo/{wojewodztwo}")
+    public ResponseEntity getAllByWojewodztwo(@RequestParam(value = "fields", required = false) String fields,
+                                       @PathVariable(name = "wojewodztwo") String wojewodztwo) {
+        return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.WOJEWODZTWO, wojewodztwo));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/powiat/{powiat}")
+    public ResponseEntity getAllByPowiat(@RequestParam(value = "fields", required = false) String fields,
+                                              @PathVariable(name = "powiat") String powiat) {
+        return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.POWIAT, powiat));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/name/{name}")
+    public ResponseEntity getAllByFullName(@RequestParam(value = "fields", required = false) String fields,
+                                         @PathVariable(name = "name") String name) {
+        return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.FULLNAME, name));
     }
 
     private Object getSchools(String fields) {
@@ -34,28 +76,23 @@ public class SchoolController {
         return controllersTools.parsedSchools(schools, fields);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/city/{city}")
-    public ResponseEntity getAllByCity(@RequestParam(value = "fields", required = false) String fields,
-                                     @PathVariable(name = "city") String city) {
-        return ResponseEntity.ok(getSchoolsByCity(fields, city));
-    }
-
-    private Object getSchoolsByCity(String fields, String city) {
-        List<School> schools = schoolRepository.findAllByCity(city);
+    private Object getSchoolsByFilter(String fields, SchoolFilterEnum filter, String value){
+        List<School> schools;
+        if (filter == SchoolFilterEnum.CITY){
+            schools = schoolRepository.findAllByCity(value);
+        }else if (filter == SchoolFilterEnum.TYPE) {
+            schools = schoolRepository.findAllByType(value);
+        }else if (filter == SchoolFilterEnum.WOJEWODZTWO){
+            schools = schoolRepository.findAllByWojewodztwo(value);
+        }else if (filter == SchoolFilterEnum.POWIAT){
+            schools = schoolRepository.findAllByPowiat(value);
+        }else if (filter == SchoolFilterEnum.FULLNAME){
+            schools = schoolRepository.findAllBySchoolFullNameContaining(value);
+        }else{
+            schools = null;
+        }
         return controllersTools.parsedSchools(schools, fields);
     }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/type/{type}")
-    public ResponseEntity getAllByType(@RequestParam(value = "fields", required = false) String fields,
-                                     @PathVariable(name = "type") String type) {
-        return ResponseEntity.ok(getSchoolsByTypes(fields, type));
-    }
-
-    private Object getSchoolsByTypes(String fields, String type) {
-        List<School> schools = schoolRepository.findAllByType(type);
-        return controllersTools.parsedSchools(schools, fields);
-    }
-
 
     @PostMapping
     public ResponseEntity blockPost(){
