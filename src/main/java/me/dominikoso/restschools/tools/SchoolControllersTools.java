@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResponseControllersTools {
+public class SchoolControllersTools {
 
     public Object parsedSchool(School school, String fields) {
         if (fields == null || fields.isEmpty()) {
