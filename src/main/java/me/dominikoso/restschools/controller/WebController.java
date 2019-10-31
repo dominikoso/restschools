@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 public class WebController {
 
-    private List<String> endpoints = Arrays.asList("", "id", "city", "type", "wojewodztwo", "powiat", "name");
+    private List<String> endpoints = Arrays.asList("id", "city", "type", "wojewodztwo", "powiat", "name");
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String homePageLoader(Model model, HttpServletRequest request){
