@@ -5,6 +5,8 @@ import me.dominikoso.restschools.repository.SchoolRepository;
 import me.dominikoso.restschools.tools.SchoolControllersTools;
 import me.dominikoso.restschools.tools.SchoolFilterEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +39,9 @@ public class SchoolController {
     private SchoolControllersTools controllersTools = new SchoolControllersTools();
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity getAll(@RequestParam(value = "fields", required = false) String fields) {
-        return ResponseEntity.ok(getSchools(fields));
+    public ResponseEntity getAll(@RequestParam(value = "fields", required = false) String fields,
+    @PageableDefault(page = 0, size = 1000) Pageable pageable) {
+        return ResponseEntity.ok(getSchools(fields, pageable));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/id/{id}")
@@ -82,8 +85,8 @@ public class SchoolController {
         return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.FULLNAME, name));
     }
 
-    private Object getSchools(String fields) {
-        List<School> schools = schoolRepository.findAll();
+    private Object getSchools(String fields, Pageable pageable) {
+        List<School> schools = schoolRepository.findAll(pageable);
         return controllersTools.parsedSchools(schools, fields);
     }
 
