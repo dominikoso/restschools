@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * School controller class - used for serving data to user in form of json
@@ -22,6 +23,16 @@ public class SchoolController {
 
     @Autowired
     private SchoolRepository schoolRepository;
+
+    private Map<SchoolFilterEnum, Function<String, List<School>>> finders = new HashMap<SchoolFilterEnum, Function<String, List<School>>>() {
+        {
+            put(SchoolFilterEnum.CITY, (String type) -> schoolRepository.findAllByCity(type));
+            put(SchoolFilterEnum.POWIAT, (String type) -> schoolRepository.findAllByPowiat(type));
+            put(SchoolFilterEnum.TYPE, (String type) -> schoolRepository.findAllByType(type));
+            put(SchoolFilterEnum.WOJEWODZTWO, (String type) -> schoolRepository.findAllByWojewodztwo(type));
+            put(SchoolFilterEnum.FULLNAME, (String type) -> schoolRepository.findAllBySchoolFullNameContaining(type));
+        }
+    };
 
     private SchoolControllersTools controllersTools = new SchoolControllersTools();
 
@@ -77,20 +88,7 @@ public class SchoolController {
     }
 
     private Object getSchoolsByFilter(String fields, SchoolFilterEnum filter, String value){
-        List<School> schools;
-        if (filter == SchoolFilterEnum.CITY){
-            schools = schoolRepository.findAllByCity(value);
-        }else if (filter == SchoolFilterEnum.TYPE) {
-            schools = schoolRepository.findAllByType(value);
-        }else if (filter == SchoolFilterEnum.WOJEWODZTWO){
-            schools = schoolRepository.findAllByWojewodztwo(value);
-        }else if (filter == SchoolFilterEnum.POWIAT){
-            schools = schoolRepository.findAllByPowiat(value);
-        }else if (filter == SchoolFilterEnum.FULLNAME){
-            schools = schoolRepository.findAllBySchoolFullNameContaining(value);
-        }else{
-            schools = null;
-        }
+        List<School> schools = finders.get(filter).apply(value);
         return controllersTools.parsedSchools(schools, fields);
     }
 
