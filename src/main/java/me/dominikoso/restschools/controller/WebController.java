@@ -14,11 +14,19 @@ import java.util.List;
 public class WebController {
 
     private List<String> endpoints = Arrays.asList("id", "city", "type", "wojewodztwo", "powiat", "name");
+    private List<String> descriptions = Arrays.asList(
+            "Fetch one school entry using it's id",
+            "Fetch all schools entries using city location",
+            "Fetch all schools entries using school type",
+            "Fetch all schools entries using wojewodztwo location",
+            "Fetch all schools entries using powiat location",
+            "Fetch all schools entries with name containing query");
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String homePageLoader(Model model, HttpServletRequest request){
         model.addAttribute("endpoints", endpoints);
         model.addAttribute("fullUrl", request.getRequestURL().toString());
+        model.addAttribute("desc", descriptions);
 
         return "home";
     }
