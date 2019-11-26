@@ -20,7 +20,7 @@ import java.util.function.Function;
  * @see School
  */
 @RestController
-@RequestMapping(value = "/school", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/schools", produces = "application/json; charset=utf-8")
 public class SchoolController {
 
     @Autowired
@@ -86,7 +86,7 @@ public class SchoolController {
     }
 
     private Object getSchools(String fields, Pageable pageable) {
-        List<School> schools = schoolRepository.findAll(pageable);
+        List<School> schools = schoolRepository.findAll(pageable).getContent();
         return controllersTools.parsedSchools(schools, fields);
     }
 

@@ -2,6 +2,7 @@ package me.dominikoso.restschools.repository;
 
 import me.dominikoso.restschools.model.School;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public interface SchoolRepository extends CrudRepository<School, Long> {
      * Function that fetch all entries from schools table.
      */
     @Cacheable("all")
-    List<School> findAll(Pageable pageable);
+    Page<School> findAll(Pageable pageable);
     /**
      * Function that fetch one entry from schools table by id.
      * @param id database id
