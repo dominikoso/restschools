@@ -5,10 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>RestSchools</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">RestSchools</a>
+            <a class="navbar-brand" href="/">RestSchools</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="/schools-list">Schools List</a>
+                </div>
+            </div>
+            <a class="fa fa-github" href="https://github.com/dominikoso"></a>
         </nav><br><br><br>
 
         <main role="main" class="container">
@@ -18,12 +29,14 @@
                     <tr>
                         <th> Endpoints: </th>
                         <th> Optional:  </th>
+                        <th> Description:  </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="endpoint : ${endpoints}">
-                        <td><span th:text="@{|${fullUrl}school/${endpoint}/{param}|}"></span></td>
+                    <tr th:each="endpoint,iterStat : ${endpoints}">
+                        <td><span th:text="@{|${fullUrl}schools/${endpoint}/{param}|}"></span></td>
                         <td><span th:text="@{|?fields=field1,field2|}"></span></td>
+                        <td><span th:text="${desc[__${iterStat.index}__]}"></span></td>
                     </tr>
                     </tbody>
                 </table>

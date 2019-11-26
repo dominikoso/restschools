@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Schools List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/scrollUp.css}">
+</head>
+    <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/">RestSchools</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link active" href="/schools-list">Schools List <span class="sr-only">(current)</span></a>
+            </div>
+        </div>
+        <a class="fa fa-github" href="https://github.com/dominikoso"></a>
+    </nav><br><br><br>
+
+        <main role="main" class="container float-left">
+            <table class="table">
+                <tr><th>Id</th>
+                    <th>School Name</th>
+                    <th>School Type</th>
+                    <th>Województwo</th>
+                    <th>City</th>
+                    <th>Street</th>
+                    <th>House Number</th>
+                    <th>Postcode</th>
+                    <th>Website</th>
+                    <th>Phone</th>
+                </tr>
+                <tr th:each="school : ${page.content}">
+                    <td th:text="${school.schoolId}"></td>
+                    <td th:text="${school.schoolFullName}"></td>
+                    <td th:text="${school.type}"></td>
+                    <td th:text="${school.wojewodztwo}"></td>
+                    <td th:text="${school.city}"></td>
+                    <td th:text="${school.street}"></td>
+                    <td th:text="${school.houseNumber}"></td>
+                    <td th:text="${school.postcode}"></td>
+                    <td th:text="${school.www}"></td>
+                    <td th:text="${school.phone}"></td>
+                </tr>
+            </table>
+
+            <div class="pagination-div float-left">
+                <span th:if="${page.hasPrevious()}">
+                    <a th:href="@{/schools-list(page=${page.number-1},size=${page.size})}"><button type="button" class="btn btn-danger">Previous</button></a>
+                </span>
+                <span th:if="${page.number != 0}">
+                    <a th:href="@{/schools-list(page=0,size=${page.size})}"><button type="button" class="btn btn-info">First</button></a>
+                </span>
+                    <th:block th:each="i: ${#numbers.sequence(page.number, page.number + 10)}">
+                        <span th:if="${page.number == i}" class="selected"><button type="button" class="btn btn-secondary">[[${i}+1]]</button></span>
+                        <span th:if="${page.getTotalPages() > i && page.number != i}">
+                            <a th:href="@{/schools-list(page=${i},size=${page.size})}"><button type="button" class="btn btn-primary">[[${i}+1]]</button></a>
+                        </span>
+                    </th:block>
+                <span th:if="${page.hasNext()}">
+                    <a th:href="@{/schools-list(page=${page.getTotalPages()-1},size=${page.size})}"><button type="button" class="btn btn-info">Last</button></a>
+                    <a th:href="@{/schools-list(page=${page.number+1},size=${page.size})}"><button type="button" class="btn btn-success">Next</button></a>
+                </span>
+            </div><br><br><br>
+            <a href="javascript:" id="return-to-top"><i class="fa fa-arrow-up"></i></a>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script th:src="@{/js/scrollUp.js}"></script>
+    </body>
+</html>

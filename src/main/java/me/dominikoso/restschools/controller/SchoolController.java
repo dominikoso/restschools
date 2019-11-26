@@ -5,11 +5,14 @@ import me.dominikoso.restschools.repository.SchoolRepository;
 import me.dominikoso.restschools.tools.SchoolControllersTools;
 import me.dominikoso.restschools.tools.SchoolFilterEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * School controller class - used for serving data to user in form of json
@@ -17,17 +20,28 @@ import java.util.List;
  * @see School
  */
 @RestController
-@RequestMapping(value = "/school", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/schools", produces = "application/json; charset=utf-8")
 public class SchoolController {
 
     @Autowired
     private SchoolRepository schoolRepository;
 
+    private Map<SchoolFilterEnum, Function<String, List<School>>> finders = new HashMap<SchoolFilterEnum, Function<String, List<School>>>() {
+        {
+            put(SchoolFilterEnum.CITY, (String type) -> schoolRepository.findAllByCity(type));
+            put(SchoolFilterEnum.POWIAT, (String type) -> schoolRepository.findAllByPowiat(type));
+            put(SchoolFilterEnum.TYPE, (String type) -> schoolRepository.findAllByType(type));
+            put(SchoolFilterEnum.WOJEWODZTWO, (String type) -> schoolRepository.findAllByWojewodztwo(type));
+            put(SchoolFilterEnum.FULLNAME, (String type) -> schoolRepository.findAllBySchoolFullNameContaining(type));
+        }
+    };
+
     private SchoolControllersTools controllersTools = new SchoolControllersTools();
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity getAll(@RequestParam(value = "fields", required = false) String fields) {
-        return ResponseEntity.ok(getSchools(fields));
+    public ResponseEntity getAll(@RequestParam(value = "fields", required = false) String fields,
+    @PageableDefault(page = 0, size = 1000) Pageable pageable) {
+        return ResponseEntity.ok(getSchools(fields, pageable));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/id/{id}")
@@ -71,26 +85,13 @@ public class SchoolController {
         return ResponseEntity.ok(getSchoolsByFilter(fields, SchoolFilterEnum.FULLNAME, name));
     }
 
-    private Object getSchools(String fields) {
-        List<School> schools = schoolRepository.findAll();
+    private Object getSchools(String fields, Pageable pageable) {
+        List<School> schools = schoolRepository.findAll(pageable).getContent();
         return controllersTools.parsedSchools(schools, fields);
     }
 
     private Object getSchoolsByFilter(String fields, SchoolFilterEnum filter, String value){
-        List<School> schools;
-        if (filter == SchoolFilterEnum.CITY){
-            schools = schoolRepository.findAllByCity(value);
-        }else if (filter == SchoolFilterEnum.TYPE) {
-            schools = schoolRepository.findAllByType(value);
-        }else if (filter == SchoolFilterEnum.WOJEWODZTWO){
-            schools = schoolRepository.findAllByWojewodztwo(value);
-        }else if (filter == SchoolFilterEnum.POWIAT){
-            schools = schoolRepository.findAllByPowiat(value);
-        }else if (filter == SchoolFilterEnum.FULLNAME){
-            schools = schoolRepository.findAllBySchoolFullNameContaining(value);
-        }else{
-            schools = null;
-        }
+        List<School> schools = finders.get(filter).apply(value);
         return controllersTools.parsedSchools(schools, fields);
     }
 
