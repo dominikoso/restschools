@@ -1,5 +1,6 @@
 package me.dominikoso.restschools.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import me.dominikoso.restschools.model.School;
 import me.dominikoso.restschools.repository.SchoolRepository;
 import me.dominikoso.restschools.tools.SchoolControllersTools;
@@ -96,6 +97,7 @@ public class SchoolController {
     }
 
     @PostMapping
+    @Hidden
     public ResponseEntity blockPost(){
         return  ResponseEntity.status(HttpStatus.FORBIDDEN).body("We don't do that here");
     }
