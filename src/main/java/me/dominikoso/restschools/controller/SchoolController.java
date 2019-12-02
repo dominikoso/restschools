@@ -1,6 +1,8 @@
 package me.dominikoso.restschools.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import me.dominikoso.restschools.model.School;
 import me.dominikoso.restschools.repository.SchoolRepository;
 import me.dominikoso.restschools.tools.SchoolControllersTools;
@@ -41,7 +43,7 @@ public class SchoolController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getAll(@RequestParam(value = "fields", required = false) String fields,
-    @PageableDefault(page = 0, size = 1000) Pageable pageable) {
+    @PageableDefault(page = 0, size = 1000)  @Parameter(hidden = true) Pageable pageable) {
         return ResponseEntity.ok(getSchools(fields, pageable));
     }
 
