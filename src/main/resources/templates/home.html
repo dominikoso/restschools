@@ -17,14 +17,18 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
                     <a class="nav-item nav-link" href="/schools-list">Schools List</a>
+                    <a class="nav-item nav-link" href="/api">API</a>
+                    <a class="nav-item nav-link" href="https://github.com/dominikoso"><span class="fa fa-github"></span> GitHub</a>
                 </div>
             </div>
-            <a class="fa fa-github" href="https://github.com/dominikoso"></a>
         </nav><br><br><br>
 
         <main role="main" class="container">
+                <h1>RestSchools</h1>
+                <img src="https://travis-ci.com/dominikoso/restschools.svg?branch=develop" alt="build-passing">
+                <p>API Created for easier processing polish schools data.</p>
 
-                <table class="table">
+                <!-- <table class="table">
                     <thead>
                     <tr>
                         <th> Endpoints: </th>
@@ -34,12 +38,12 @@
                     </thead>
                     <tbody>
                     <tr th:each="endpoint,iterStat : ${endpoints}">
-                        <td><span th:text="@{|${fullUrl}schools/${endpoint}/{param}|}"></span></td>
+                        <td><span th:text="@{|${fullUrl}/api/schools/${endpoint}/{param}|}"></span></td>
                         <td><span th:text="@{|?fields=field1,field2|}"></span></td>
                         <td><span th:text="${desc[__${iterStat.index}__]}"></span></td>
                     </tr>
                     </tbody>
-                </table>
+                </table> -->
         </main>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
