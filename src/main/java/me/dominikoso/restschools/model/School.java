@@ -1,8 +1,11 @@
 package me.dominikoso.restschools.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.*;
 
@@ -15,6 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="schools")
+@Schema(name="School", description = "Spring representation for Database School Entity")
 public class School{
 
     /**
