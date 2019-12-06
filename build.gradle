@@ -1,23 +1,11 @@
-buildscript {
-    ext {
-        springBootVersion = '2.1.1.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 plugins {
-	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'org.springframework.boot' version '2.2.2.BUILD-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
 
 group = 'me.dominikoso'
-version = '0.9.2.RELEASE'
+version = '0.9.3-RELEASE'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -35,13 +23,15 @@ jar {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'com.google.code.gson:gson:2.8.6'
 	implementation 'org.springdoc:springdoc-openapi-core:1.1.49'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.1.49'
