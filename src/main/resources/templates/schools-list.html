@@ -5,65 +5,10 @@
     <title>Schools List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- I'm here because static content serving went on holidays :( -->
-    <style>
-        #return-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgb(0, 0, 0);
-            background: rgba(0, 0, 0, 0.7);
-            width: 50px;
-            height: 50px;
-            display: block;
-            text-decoration: none;
-            -webkit-border-radius: 35px;
-            -moz-border-radius: 35px;
-            border-radius: 35px;
-            display: none;
-            -webkit-transition: all 0.3s linear;
-            -moz-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-        #return-to-top i {
-            color: #fff;
-            margin: 0;
-            position: relative;
-            left: 16px;
-            top: 13px;
-            font-size: 19px;
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-        #return-to-top:hover {
-            background: rgba(0, 0, 0, 0.9);
-        }
-        #return-to-top:hover i {
-            color: #fff;
-            top: 5px;
-        }
-    </style>
+    <link th:href="@{/css/scrollUp.css}" rel="stylesheet">
 </head>
     <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/">RestSchools</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Home</a>
-                <a class="nav-item nav-link active" href="/schools-list">Schools List <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/api">API</a>
-                <a class="nav-item nav-link" href="https://github.com/dominikoso"><span class="fa fa-github"></span> GitHub</a>
-            </div>
-        </div>
-    </nav><br><br><br>
+    <nav th:insert="fragments/nav.html :: nav"></nav><br><br><br>
 
         <main role="main" class="container float-left">
             <table class="table">
@@ -110,26 +55,10 @@
                     <a th:href="@{/schools-list(page=${page.number+1},size=${page.size})}"><button type="button" class="btn btn-success">Next</button></a>
                 </span>
             </div><br><br><br>
-            <a href="javascript:" id="return-to-top"><i class="fa fa-arrow-up"></i></a>
+            <a href="javascript: " id="return-to-top"><i class="fa fa-arrow-up"></i></a>
         </main>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <!-- I'm here because static content serving went on holidays :( -->
-        <script type="application/javascript">
-            // ===== Scroll to Top ====
-            $(window).scroll(function() {
-                if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
-                    $('#return-to-top').fadeIn(200);    // Fade in the arrow
-                } else {
-                    $('#return-to-top').fadeOut(200);   // Else fade out the arrow
-                }
-            });
-            $('#return-to-top').click(function() {      // When arrow is clicked
-                $('body,html').animate({
-                    scrollTop : 0                       // Scroll to top of body
-                }, 500);
-            });
-        </script>
+        <script type="application/javascript" th:src="@{/js/scrollUp.js}"></script>
     </body>
 </html>

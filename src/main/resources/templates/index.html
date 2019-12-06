@@ -8,20 +8,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="/">RestSchools</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/schools-list">Schools List</a>
-                    <a class="nav-item nav-link" href="/api">API</a>
-                    <a class="nav-item nav-link" href="https://github.com/dominikoso"><span class="fa fa-github"></span> GitHub</a>
-                </div>
-            </div>
-        </nav><br><br><br>
+        <nav th:insert="fragments/nav.html :: nav"></nav><br><br><br>
 
         <main role="main" class="container">
                 <h1>RestSchools</h1>
