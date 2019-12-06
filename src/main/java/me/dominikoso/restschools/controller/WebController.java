@@ -17,13 +17,7 @@ public class WebController {
     @Autowired
     private SchoolRepository schoolRepository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String homePageLoader(Model model){
-
-        return "home";
-    }
-
-    @RequestMapping(value = "/schools-list", method = RequestMethod.GET)
+    @RequestMapping(value = "schools-list", method = RequestMethod.GET)
     public String graphicalInfoLoader(@PageableDefault(size = 100) Pageable pageable, Model model){
         Page<School> page = schoolRepository.findAll(pageable);
         model.addAttribute("page", page);

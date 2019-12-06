@@ -35,8 +35,9 @@ import java.util.function.Function;
         contact = @Contact(url = "https://github.com/dominikoso", name = "dominikoso", email = "mcdominikoso@gmail.com")
 )
 )
+
 @RestController
-@RequestMapping(value = "/api/schools", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "api/schools", produces = "application/json; charset=utf-8")
 @Tag(name = "SchoolController", description = "Controller that handles data based on School Entity")
 public class SchoolController {
 
